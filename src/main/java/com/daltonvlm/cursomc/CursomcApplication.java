@@ -1,13 +1,18 @@
 package com.daltonvlm.cursomc;
 
 import com.daltonvlm.cursomc.domain.Category;
+import com.daltonvlm.cursomc.domain.City;
 import com.daltonvlm.cursomc.domain.Product;
+import com.daltonvlm.cursomc.domain.State;
 import com.daltonvlm.cursomc.repositories.CategoryRepository;
+import com.daltonvlm.cursomc.repositories.CityRepository;
 import com.daltonvlm.cursomc.repositories.ProductRepository;
+import com.daltonvlm.cursomc.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -18,6 +23,10 @@ public class CursomcApplication implements CommandLineRunner {
     private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private StateRepository stateRepository;
+    @Autowired
+    private CityRepository cityRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -25,21 +34,34 @@ public class CursomcApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Category category1 = new Category(null, "Informatics");
-        Category category2 = new Category(null, "Office");
+        Category informatics = new Category(null, "Informatics");
+        Category office = new Category(null, "Office");
 
-        Product product1 = new Product(null, "Computer", 2000.00);
-        Product product2 = new Product(null, "Printer", 800.00);
-        Product product3 = new Product(null, "Mouse", 80.00);
+        Product computer = new Product(null, "Computer", 2000.00);
+        Product printer = new Product(null, "Printer", 800.00);
+        Product mouse = new Product(null, "Mouse", 80.00);
 
-        category1.getProducts().addAll(Arrays.asList(product1, product2, product3));
-        category2.getProducts().addAll(Arrays.asList(product2));
+        informatics.getProducts().addAll(Arrays.asList(computer, printer, mouse));
+        office.getProducts().addAll(Arrays.asList(printer));
 
-        product1.getCategories().addAll(Arrays.asList(category1));
-        product2.getCategories().addAll(Arrays.asList(category1, category2));
-        product3.getCategories().addAll(Arrays.asList(category1));
+        computer.getCategories().addAll(Arrays.asList(informatics));
+        printer.getCategories().addAll(Arrays.asList(informatics, office));
+        mouse.getCategories().addAll(Arrays.asList(informatics));
 
-        categoryRepository.saveAll(Arrays.asList(category1, category2));
-        productRepository.saveAll(Arrays.asList(product1, product2, product3));
+        categoryRepository.saveAll(Arrays.asList(informatics, office));
+        productRepository.saveAll(Arrays.asList(computer, printer, mouse));
+
+        State minasGerais = new State(null, "Minas Gerais");
+        State saoPaulo = new State(null, "São Paulo");
+
+        City uberlandia = new City(null, "Uberlândia", minasGerais);
+        City saoPauloCity = new City(null, "São Paulo", saoPaulo);
+        City campinas = new City(null, "Campinas", saoPaulo);
+
+        minasGerais.getCities().addAll(Arrays.asList(uberlandia));
+        saoPaulo.getCities().addAll(Arrays.asList(saoPauloCity, campinas));
+
+        stateRepository.saveAll(Arrays.asList(minasGerais, saoPaulo));
+        cityRepository.saveAll(Arrays.asList(uberlandia, saoPauloCity, campinas));
     }
 }
