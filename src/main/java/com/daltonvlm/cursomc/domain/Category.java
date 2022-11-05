@@ -1,5 +1,7 @@
 package com.daltonvlm.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    @JsonManagedReference
     @ManyToMany(mappedBy = "categories")
     private List<Product> products = new ArrayList<>();
 

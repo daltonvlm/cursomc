@@ -2,6 +2,7 @@ package com.daltonvlm.cursomc.services;
 
 import com.daltonvlm.cursomc.domain.Category;
 import com.daltonvlm.cursomc.repositories.CategoryRepository;
+import com.daltonvlm.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,6 @@ public class CategoryService {
 
     public Category find(Integer id) {
         Optional<Category> category = repository.findById(id);
-        return category.orElse(null);
+        return category.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Category.class.getName()));
     }
 }
