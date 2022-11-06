@@ -1,20 +1,13 @@
 package com.daltonvlm.cursomc;
 
-import com.daltonvlm.cursomc.domain.Category;
-import com.daltonvlm.cursomc.domain.City;
-import com.daltonvlm.cursomc.domain.Product;
-import com.daltonvlm.cursomc.domain.State;
-import com.daltonvlm.cursomc.repositories.CategoryRepository;
-import com.daltonvlm.cursomc.repositories.CityRepository;
-import com.daltonvlm.cursomc.repositories.ProductRepository;
-import com.daltonvlm.cursomc.repositories.StateRepository;
+import com.daltonvlm.cursomc.domain.*;
+import com.daltonvlm.cursomc.domain.enums.ClientType;
+import com.daltonvlm.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -27,6 +20,10 @@ public class CursomcApplication implements CommandLineRunner {
     private StateRepository stateRepository;
     @Autowired
     private CityRepository cityRepository;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -63,5 +60,18 @@ public class CursomcApplication implements CommandLineRunner {
 
         stateRepository.saveAll(Arrays.asList(minasGerais, saoPaulo));
         cityRepository.saveAll(Arrays.asList(uberlandia, saoPauloCity, campinas));
+
+        Client mariaSilva = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURAL_PERSON);
+        mariaSilva.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+
+        Address address1 = new Address(
+                null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", mariaSilva, uberlandia);
+        Address address2 = new Address(
+                null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", mariaSilva, saoPauloCity);
+
+        mariaSilva.getAddresses().addAll(Arrays.asList(address1, address2));
+
+        clientRepository.saveAll(Arrays.asList(mariaSilva));
+        addressRepository.saveAll(Arrays.asList(address1, address2));
     }
 }
