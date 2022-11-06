@@ -30,6 +30,8 @@ public class CursomcApplication implements CommandLineRunner {
     private ClientOrderRepository clientOrderRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private ClientOrderItemRepository clientOrderItemRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -95,5 +97,18 @@ public class CursomcApplication implements CommandLineRunner {
 
         clientOrderRepository.saveAll(Arrays.asList(order1, order2));
         paymentRepository.saveAll(Arrays.asList(payment1, payment2));
+
+        ClientOrderItem coi1 = new ClientOrderItem(order1, computer, 0.00, 1, 2000.00);
+        ClientOrderItem coi2 = new ClientOrderItem(order1, mouse, 0.00, 2, 80.00);
+        ClientOrderItem coi3 = new ClientOrderItem(order2, printer, 100.00, 1, 800.00);
+
+        order1.getClientOrderItems().addAll(Arrays.asList(coi1, coi2));
+        order2.getClientOrderItems().addAll(Arrays.asList(coi3));
+
+        computer.getClientOrderItems().addAll(Arrays.asList(coi1));
+        mouse.getClientOrderItems().addAll(Arrays.asList(coi2));
+        printer.getClientOrderItems().addAll(Arrays.asList(coi3));
+
+        clientOrderItemRepository.saveAll(Arrays.asList(coi1, coi2, coi3));
     }
 }

@@ -3,7 +3,9 @@ package com.daltonvlm.cursomc.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class ClientOrder implements Serializable {
@@ -19,6 +21,8 @@ public class ClientOrder implements Serializable {
     @ManyToOne
     @JoinColumn(name = "delivery_address_id")
     private Address deliveryAddress;
+    @OneToMany(mappedBy = "id.clientOrder")
+    private Set<ClientOrderItem> clientOrderItems = new HashSet<>();
 
     public ClientOrder() {
     }
@@ -68,6 +72,14 @@ public class ClientOrder implements Serializable {
 
     public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public Set<ClientOrderItem> getClientOrderItems() {
+        return clientOrderItems;
+    }
+
+    public void setClientOrderItems(Set<ClientOrderItem> items) {
+        this.clientOrderItems = items;
     }
 
     @Override
