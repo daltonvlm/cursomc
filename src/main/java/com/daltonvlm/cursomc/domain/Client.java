@@ -1,6 +1,7 @@
 package com.daltonvlm.cursomc.domain;
 
 import com.daltonvlm.cursomc.domain.enums.ClientType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class Client implements Serializable {
     private String email;
     private String personId;
     private Integer type;
+    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<Address>();
     @ElementCollection
