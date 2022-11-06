@@ -2,12 +2,14 @@ package com.daltonvlm.cursomc;
 
 import com.daltonvlm.cursomc.domain.*;
 import com.daltonvlm.cursomc.domain.enums.ClientType;
+import com.daltonvlm.cursomc.domain.enums.PaymentState;
 import com.daltonvlm.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -24,6 +26,10 @@ public class CursomcApplication implements CommandLineRunner {
     private ClientRepository clientRepository;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private ClientOrderRepository clientOrderRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -73,5 +79,21 @@ public class CursomcApplication implements CommandLineRunner {
 
         clientRepository.saveAll(Arrays.asList(mariaSilva));
         addressRepository.saveAll(Arrays.asList(address1, address2));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        ClientOrder order1 = new ClientOrder(null, sdf.parse("30/09/2017 10:32"), mariaSilva, address1);
+        ClientOrder order2 = new ClientOrder(null, sdf.parse("10/10/2017 19:35"), mariaSilva, address2);
+
+        Payment payment1 = new PaymentByCard(null, PaymentState.PAID, order1, 6);
+        order1.setPayment(payment1);
+
+        Payment payment2 = new PaymentByTicket(null, PaymentState.PENDING, order2, sdf.parse("20/10/2017 00:00"), null);
+        order2.setPayment(payment2);
+
+        mariaSilva.getClientOrders().addAll(Arrays.asList(order1, order2));
+
+        clientOrderRepository.saveAll(Arrays.asList(order1, order2));
+        paymentRepository.saveAll(Arrays.asList(payment1, payment2));
     }
 }
