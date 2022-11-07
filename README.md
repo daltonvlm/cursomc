@@ -1,7 +1,11 @@
 # Cursomc
+
 Spring Boot REST API for a case study of an online order management system
 
+![Badge](https://img.shields.io/badge/status-under_development-yellow)
+
 ## Endpoints
+
 | Endpoint | Description |
 | --- | --- |
 | /categories/{id} | A category and its products
@@ -9,6 +13,7 @@ Spring Boot REST API for a case study of an online order management system
 | /orders/{id} | An order, its client, payment, order items, and delivery address
 
 ## Tools covered
+
 * Spring Boot REST API
 * JPA / Hibernate
 * MySql
