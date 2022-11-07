@@ -2,7 +2,7 @@
 
 Spring Boot REST API for a case study of an online order management system
 
-![Badge](https://img.shields.io/badge/status-under_development-yellow)
+![Badge](https://img.shields.io/badge/status-in_progress-yellow)
 
 ## Endpoints
 
