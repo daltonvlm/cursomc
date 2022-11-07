@@ -1,7 +1,6 @@
 package com.daltonvlm.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,18 +14,21 @@ public class ClientOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date date;
-    @JsonManagedReference
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
-    @JsonManagedReference
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
     @OneToMany(mappedBy = "id.order")
     private Set<ClientOrderItem> orderItems = new HashSet<>();
 

@@ -10,6 +10,7 @@ import java.util.Date;
 public class PaymentByTicket extends Payment {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date expirationDate;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date paymentDate;
 

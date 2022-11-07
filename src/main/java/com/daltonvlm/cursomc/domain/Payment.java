@@ -1,7 +1,7 @@
 package com.daltonvlm.cursomc.domain;
 
 import com.daltonvlm.cursomc.domain.enums.PaymentState;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +13,8 @@ public abstract class Payment implements Serializable {
     @Id
     private Integer id;
     private Integer state;
-    @JsonBackReference
+
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "order_id")
     @MapsId

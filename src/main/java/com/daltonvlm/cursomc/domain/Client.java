@@ -1,8 +1,7 @@
 package com.daltonvlm.cursomc.domain;
 
 import com.daltonvlm.cursomc.domain.enums.ClientType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,13 +16,15 @@ public class Client implements Serializable {
     private String email;
     private String personId;
     private Integer type;
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
+
     @ElementCollection
     @CollectionTable(name = "PHONE")
     private Set<String> phones = new HashSet<>();
-    @JsonBackReference
+
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<ClientOrder> orders = new ArrayList<>();
 

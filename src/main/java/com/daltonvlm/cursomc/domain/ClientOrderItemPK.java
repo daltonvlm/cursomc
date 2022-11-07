@@ -11,6 +11,7 @@ public class ClientOrderItemPK implements Serializable {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private ClientOrder order;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
