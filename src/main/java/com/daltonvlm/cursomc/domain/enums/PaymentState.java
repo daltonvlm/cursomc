@@ -13,7 +13,7 @@ public enum PaymentState {
         this.description = description;
     }
 
-    public PaymentState toEnum(Integer code) {
+    public static PaymentState toEnum(Integer code) {
         if (code == null) {
             return null;
         }

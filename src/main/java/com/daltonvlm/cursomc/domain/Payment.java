@@ -1,6 +1,7 @@
 package com.daltonvlm.cursomc.domain;
 
 import com.daltonvlm.cursomc.domain.enums.PaymentState;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,18 +13,19 @@ public abstract class Payment implements Serializable {
     @Id
     private Integer id;
     private Integer state;
+    @JsonBackReference
     @OneToOne
-    @JoinColumn(name = "client_order_id")
+    @JoinColumn(name = "order_id")
     @MapsId
-    private ClientOrder clientOrder;
+    private ClientOrder order;
 
     public Payment() {
     }
 
-    public Payment(Integer id, PaymentState state, ClientOrder clientOrder) {
+    public Payment(Integer id, PaymentState state, ClientOrder order) {
         this.id = id;
         this.state = state.getCode();
-        this.clientOrder = clientOrder;
+        this.order = order;
     }
 
     public Integer getId() {
@@ -35,7 +37,7 @@ public abstract class Payment implements Serializable {
     }
 
     public PaymentState getState() {
-        return PaymentState.CANCELED.toEnum(state);
+        return PaymentState.toEnum(state);
     }
 
     public void setState(PaymentState state) {
@@ -43,11 +45,11 @@ public abstract class Payment implements Serializable {
     }
 
     public ClientOrder getOrder() {
-        return clientOrder;
+        return order;
     }
 
-    public void setOrder(ClientOrder clientOrder) {
-        this.clientOrder = clientOrder;
+    public void setOrder(ClientOrder order) {
+        this.order = order;
     }
 
     @Override

@@ -27,11 +27,11 @@ public class CursomcApplication implements CommandLineRunner {
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
-    private ClientOrderRepository clientOrderRepository;
+    private ClientOrderRepository orderRepository;
     @Autowired
     private PaymentRepository paymentRepository;
     @Autowired
-    private ClientOrderItemRepository clientOrderItemRepository;
+    private ClientOrderItemRepository orderItemRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -93,22 +93,22 @@ public class CursomcApplication implements CommandLineRunner {
         Payment payment2 = new PaymentByTicket(null, PaymentState.PENDING, order2, sdf.parse("20/10/2017 00:00"), null);
         order2.setPayment(payment2);
 
-        mariaSilva.getClientOrders().addAll(Arrays.asList(order1, order2));
+        mariaSilva.getOrders().addAll(Arrays.asList(order1, order2));
 
-        clientOrderRepository.saveAll(Arrays.asList(order1, order2));
+        orderRepository.saveAll(Arrays.asList(order1, order2));
         paymentRepository.saveAll(Arrays.asList(payment1, payment2));
 
-        ClientOrderItem coi1 = new ClientOrderItem(order1, computer, 0.00, 1, 2000.00);
-        ClientOrderItem coi2 = new ClientOrderItem(order1, mouse, 0.00, 2, 80.00);
-        ClientOrderItem coi3 = new ClientOrderItem(order2, printer, 100.00, 1, 800.00);
+        ClientOrderItem orderItem1 = new ClientOrderItem(order1, computer, 0.00, 1, 2000.00);
+        ClientOrderItem orderItem2 = new ClientOrderItem(order1, mouse, 0.00, 2, 80.00);
+        ClientOrderItem orderItem3 = new ClientOrderItem(order2, printer, 100.00, 1, 800.00);
 
-        order1.getClientOrderItems().addAll(Arrays.asList(coi1, coi2));
-        order2.getClientOrderItems().addAll(Arrays.asList(coi3));
+        order1.getOrderItems().addAll(Arrays.asList(orderItem1, orderItem2));
+        order2.getOrderItems().addAll(Arrays.asList(orderItem3));
 
-        computer.getClientOrderItems().addAll(Arrays.asList(coi1));
-        mouse.getClientOrderItems().addAll(Arrays.asList(coi2));
-        printer.getClientOrderItems().addAll(Arrays.asList(coi3));
+        computer.getOrderItems().addAll(Arrays.asList(orderItem1));
+        mouse.getOrderItems().addAll(Arrays.asList(orderItem2));
+        printer.getOrderItems().addAll(Arrays.asList(orderItem3));
 
-        clientOrderItemRepository.saveAll(Arrays.asList(coi1, coi2, coi3));
+        orderItemRepository.saveAll(Arrays.asList(orderItem1, orderItem2, orderItem3));
     }
 }

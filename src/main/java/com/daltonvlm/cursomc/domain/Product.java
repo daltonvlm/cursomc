@@ -1,6 +1,7 @@
 package com.daltonvlm.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,8 +18,9 @@ public class Product implements Serializable {
     @ManyToMany
     @JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
+    @JsonIgnore
     @OneToMany(mappedBy = "id.product")
-    private Set<ClientOrderItem> clientOrderItems = new HashSet<>();
+    private Set<ClientOrderItem> orderItems = new HashSet<>();
 
     public Product() {
     }
@@ -61,20 +63,21 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
-    public Set<ClientOrderItem> getClientOrderItems() {
-        return clientOrderItems;
+    public Set<ClientOrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setClientOrderItems(Set<ClientOrderItem> items) {
-        this.clientOrderItems = items;
+    public void setOrderItems(Set<ClientOrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
-    public List<ClientOrder> getClientOrders() {
-        List<ClientOrder> clientOrders = new ArrayList<>();
-        for (ClientOrderItem item : clientOrderItems) {
-            clientOrders.add(item.getClientOrder());
+    @JsonIgnore
+    public List<ClientOrder> getOrders() {
+        List<ClientOrder> orders = new ArrayList<>();
+        for (ClientOrderItem item : orderItems) {
+            orders.add(item.getOrders());
         }
-        return clientOrders;
+        return orders;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.daltonvlm.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,26 +15,29 @@ public class ClientOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date date;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "clientOrder")
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
     @ManyToOne
-    @JoinColumn(name = "delivery_address_id")
-    private Address deliveryAddress;
-    @OneToMany(mappedBy = "id.clientOrder")
-    private Set<ClientOrderItem> clientOrderItems = new HashSet<>();
+    @JoinColumn(name = "address_id")
+    private Address address;
+    @OneToMany(mappedBy = "id.order")
+    private Set<ClientOrderItem> orderItems = new HashSet<>();
 
     public ClientOrder() {
     }
 
-    public ClientOrder(Integer id, Date date, Client client, Address deliveryAddress) {
+    public ClientOrder(Integer id, Date date, Client client, Address address) {
         this.id = id;
         this.date = date;
         this.client = client;
-        this.deliveryAddress = deliveryAddress;
+        this.address = address;
     }
 
     public Integer getId() {
@@ -66,20 +72,20 @@ public class ClientOrder implements Serializable {
         this.client = client;
     }
 
-    public Address getDeliveryAddress() {
-        return deliveryAddress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setDeliveryAddress(Address deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
+    public void setAddress(Address deliveryAddress) {
+        this.address = deliveryAddress;
     }
 
-    public Set<ClientOrderItem> getClientOrderItems() {
-        return clientOrderItems;
+    public Set<ClientOrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setClientOrderItems(Set<ClientOrderItem> items) {
-        this.clientOrderItems = items;
+    public void setOrderItems(Set<ClientOrderItem> items) {
+        this.orderItems = items;
     }
 
     @Override

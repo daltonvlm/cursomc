@@ -11,8 +11,8 @@ public class PaymentByCard extends Payment {
     public PaymentByCard() {
     }
 
-    public PaymentByCard(Integer id, PaymentState state, ClientOrder clientOrder, Integer installments) {
-        super(id, state, clientOrder);
+    public PaymentByCard(Integer id, PaymentState state, ClientOrder order, Integer installments) {
+        super(id, state, order);
         this.installments = installments;
     }
 

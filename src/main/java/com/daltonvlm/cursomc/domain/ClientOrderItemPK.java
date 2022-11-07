@@ -9,18 +9,18 @@ import java.util.Objects;
 @Embeddable
 public class ClientOrderItemPK implements Serializable {
     @ManyToOne
-    @JoinColumn(name = "client_order_id")
-    private ClientOrder clientOrder;
+    @JoinColumn(name = "order_id")
+    private ClientOrder order;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public ClientOrder getClientOrder() {
-        return clientOrder;
+    public ClientOrder getOrders() {
+        return order;
     }
 
-    public void setClientOrder(ClientOrder clientOrder) {
-        this.clientOrder = clientOrder;
+    public void setOrder(ClientOrder clientOrder) {
+        this.order = clientOrder;
     }
 
     public Product getProduct() {
@@ -36,11 +36,11 @@ public class ClientOrderItemPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ClientOrderItemPK that = (ClientOrderItemPK) o;
-        return Objects.equals(clientOrder, that.clientOrder) && Objects.equals(product, that.product);
+        return Objects.equals(order, that.order) && Objects.equals(product, that.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientOrder, product);
+        return Objects.hash(order, product);
     }
 }

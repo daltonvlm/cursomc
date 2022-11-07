@@ -1,5 +1,7 @@
 package com.daltonvlm.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -7,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 public class ClientOrderItem implements Serializable {
+    @JsonIgnore
     @EmbeddedId
     private ClientOrderItemPK id = new ClientOrderItemPK();
     private Double discount;
@@ -17,15 +20,16 @@ public class ClientOrderItem implements Serializable {
     }
 
     public ClientOrderItem(ClientOrder clientOrder, Product product, Double discount, Integer quantity, Double price) {
-        this.id.setClientOrder(clientOrder);
+        this.id.setOrder(clientOrder);
         this.id.setProduct(product);
         this.discount = discount;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public ClientOrder getClientOrder() {
-        return id.getClientOrder();
+    @JsonIgnore
+    public ClientOrder getOrders() {
+        return id.getOrders();
     }
 
     public Product getProduct() {
