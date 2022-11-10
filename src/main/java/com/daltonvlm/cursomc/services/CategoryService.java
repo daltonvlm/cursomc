@@ -2,8 +2,10 @@ package com.daltonvlm.cursomc.services;
 
 import com.daltonvlm.cursomc.domain.Category;
 import com.daltonvlm.cursomc.repositories.CategoryRepository;
+import com.daltonvlm.cursomc.services.exceptions.DataIntegrityException;
 import com.daltonvlm.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,5 +28,14 @@ public class CategoryService {
     public Category update(Category category) {
         find(category.getId());
         return repository.save(category);
+    }
+
+    public void delete(Integer id) {
+        find(id);
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("It is not possible to remove a Category containing products.");
+        }
     }
 }
