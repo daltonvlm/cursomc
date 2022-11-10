@@ -22,4 +22,9 @@ public class CategoryService {
         category.setId(null);
         return repository.save(category);
     }
+
+    public Category update(Category category) {
+        find(category.getId());
+        return repository.save(category);
+    }
 }
