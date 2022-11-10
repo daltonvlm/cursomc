@@ -4,6 +4,7 @@ import com.daltonvlm.cursomc.domain.Category;
 import com.daltonvlm.cursomc.dto.CategoryDTO;
 import com.daltonvlm.cursomc.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,14 +32,14 @@ public class CategoryResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody Category category, @PathVariable Integer id) {
         category.setId(id);
         service.update(category);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
@@ -48,6 +49,18 @@ public class CategoryResource {
     public ResponseEntity<List<CategoryDTO>> findAll() {
         List<Category> categories = service.findAll();
         List<CategoryDTO> categoriesDto = categories.stream().map(category -> new CategoryDTO(category)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(categoriesDto);
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoryDTO>> findPage(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction
+    ) {
+        Page<Category> categories = service.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoryDTO> categoriesDto = categories.map(category -> new CategoryDTO(category));
         return ResponseEntity.ok().body(categoriesDto);
     }
 }
