@@ -1,6 +1,7 @@
 package com.daltonvlm.cursomc.services;
 
 import com.daltonvlm.cursomc.domain.Category;
+import com.daltonvlm.cursomc.dto.CategoryDTO;
 import com.daltonvlm.cursomc.repositories.CategoryRepository;
 import com.daltonvlm.cursomc.services.exceptions.DataIntegrityException;
 import com.daltonvlm.cursomc.services.exceptions.ObjectNotFoundException;
@@ -50,5 +51,9 @@ public class CategoryService {
     public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return repository.findAll(pageRequest);
+    }
+
+    public Category fromDTO(CategoryDTO categoryDTO) {
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 }
