@@ -30,8 +30,13 @@ public class CategoryService {
         return repository.save(category);
     }
 
+    private void updateData(Category newCategory, Category category) {
+        newCategory.setName(category.getName());
+    }
+
     public Category update(Category category) {
-        find(category.getId());
+        Category newCategory = find(category.getId());
+        updateData(newCategory, category);
         return repository.save(category);
     }
 
