@@ -54,7 +54,7 @@ public class ClientService {
         return repository.findAll(pageRequest);
     }
 
-    public Client fromDTO(ClientDTO clientDTO) {
-        return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null);
+    public Client fromDTO(ClientDTO objDto) {
+        return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null);
     }
 }
