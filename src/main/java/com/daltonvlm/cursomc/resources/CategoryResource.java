@@ -22,23 +22,23 @@ public class CategoryResource {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Category> find(@PathVariable Integer id) {
-        Category category = service.find(id);
-        return ResponseEntity.ok().body(category);
+        Category obj = service.find(id);
+        return ResponseEntity.ok().body(obj);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO categoryDto) {
-        Category category = service.fromDTO(categoryDto);
-        category = service.insert(category);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(category.getId()).toUri();
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDto) {
+        Category obj = service.fromDTO(objDto);
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO categoryDto, @PathVariable Integer id) {
-        Category category = service.fromDTO(categoryDto);
-        category.setId(id);
-        service.update(category);
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO objDto, @PathVariable Integer id) {
+        Category obj = service.fromDTO(objDto);
+        obj.setId(id);
+        service.update(obj);
         return ResponseEntity.noContent().build();
     }
 
@@ -50,9 +50,9 @@ public class CategoryResource {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<CategoryDTO>> findAll() {
-        List<Category> categories = service.findAll();
-        List<CategoryDTO> categoriesDto = categories.stream().map(category -> new CategoryDTO(category)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(categoriesDto);
+        List<Category> list = service.findAll();
+        List<CategoryDTO> listDto = list.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
@@ -62,8 +62,8 @@ public class CategoryResource {
             @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction
     ) {
-        Page<Category> categories = service.findPage(page, linesPerPage, orderBy, direction);
-        Page<CategoryDTO> categoriesDto = categories.map(category -> new CategoryDTO(category));
-        return ResponseEntity.ok().body(categoriesDto);
+        Page<Category> list = service.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoryDTO> listDto = list.map(obj -> new CategoryDTO(obj));
+        return ResponseEntity.ok().body(listDto);
     }
 }

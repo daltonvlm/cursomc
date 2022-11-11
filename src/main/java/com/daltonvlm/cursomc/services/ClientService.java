@@ -21,19 +21,19 @@ public class ClientService {
     private ClientRepository repository;
 
     public Client find(Integer id) {
-        Optional<Client> client = repository.findById(id);
-        return client.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Client.class.getName()));
+        Optional<Client> obj = repository.findById(id);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Client.class.getName()));
     }
 
-    private void updateData(Client newClient, Client client) {
-        newClient.setName(client.getName());
-        newClient.setEmail(client.getEmail());
+    private void updateData(Client newObj, Client obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
     }
 
-    public Client update(Client client) {
-        Client newClient = find(client.getId());
-        updateData(newClient, client);
-        return repository.save(newClient);
+    public Client update(Client obj) {
+        Client newObj = find(obj.getId());
+        updateData(newObj, obj);
+        return repository.save(newObj);
     }
 
     public void delete(Integer id) {

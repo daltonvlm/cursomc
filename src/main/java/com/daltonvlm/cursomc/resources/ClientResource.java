@@ -20,15 +20,15 @@ public class ClientResource {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Client> find(@PathVariable Integer id) {
-        Client client = service.find(id);
-        return ResponseEntity.ok().body(client);
+        Client obj = service.find(id);
+        return ResponseEntity.ok().body(obj);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO clientDto, @PathVariable Integer id) {
-        Client client = service.fromDTO(clientDto);
-        client.setId(id);
-        service.update(client);
+    public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO objDto, @PathVariable Integer id) {
+        Client obj = service.fromDTO(objDto);
+        obj.setId(id);
+        service.update(obj);
         return ResponseEntity.noContent().build();
     }
 
@@ -40,9 +40,9 @@ public class ClientResource {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<ClientDTO>> findAll() {
-        List<Client> clients = service.findAll();
-        List<ClientDTO> clientsDto = clients.stream().map(client -> new ClientDTO(client)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(clientsDto);
+        List<Client> list = service.findAll();
+        List<ClientDTO> listDto = list.stream().map(obj -> new ClientDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
@@ -52,8 +52,8 @@ public class ClientResource {
             @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction
     ) {
-        Page<Client> clients = service.findPage(page, linesPerPage, orderBy, direction);
-        Page<ClientDTO> clientsDto = clients.map(client -> new ClientDTO(client));
-        return ResponseEntity.ok().body(clientsDto);
+        Page<Client> list = service.findPage(page, linesPerPage, orderBy, direction);
+        Page<ClientDTO> listDto = list.map(obj -> new ClientDTO(obj));
+        return ResponseEntity.ok().body(listDto);
     }
 }

@@ -14,7 +14,7 @@ public class ClientOrderService {
     private ClientOrderRepository repository;
 
     public ClientOrder find(Integer id) {
-        Optional<ClientOrder> order = repository.findById(id);
-        return order.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + ClientOrder.class.getName()));
+        Optional<ClientOrder> obj = repository.findById(id);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + ClientOrder.class.getName()));
     }
 }

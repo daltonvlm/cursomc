@@ -21,23 +21,23 @@ public class CategoryService {
     private CategoryRepository repository;
 
     public Category find(Integer id) {
-        Optional<Category> category = repository.findById(id);
-        return category.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Category.class.getName()));
+        Optional<Category> obj = repository.findById(id);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Category.class.getName()));
     }
 
-    public Category insert(Category category) {
-        category.setId(null);
-        return repository.save(category);
+    public Category insert(Category obj) {
+        obj.setId(null);
+        return repository.save(obj);
     }
 
-    private void updateData(Category newCategory, Category category) {
-        newCategory.setName(category.getName());
+    private void updateData(Category newObj, Category obj) {
+        newObj.setName(obj.getName());
     }
 
-    public Category update(Category category) {
-        Category newCategory = find(category.getId());
-        updateData(newCategory, category);
-        return repository.save(category);
+    public Category update(Category obj) {
+        Category newObj = find(obj.getId());
+        updateData(newObj, obj);
+        return repository.save(obj);
     }
 
     public void delete(Integer id) {
