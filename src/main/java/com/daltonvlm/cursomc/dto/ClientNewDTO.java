@@ -1,19 +1,39 @@
 package com.daltonvlm.cursomc.dto;
 
+import com.daltonvlm.cursomc.services.validation.ClientInsertion;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@ClientInsertion
 public class ClientNewDTO implements Serializable {
+    @NotEmpty(message = "Field required")
+    @Length(min = 5, max = 120, message = "Size must be between 5 and 120 characters")
     private String name;
+
+    @NotEmpty(message = "Field required")
+    @Email(message = "Invalid email")
     private String email;
-    private String personId;
+
+    @NotEmpty(message = "Field required")
+
+    private String cpfOrCnpj;
     private Integer type;
 
+    @NotEmpty(message = "Field required")
     private String publicArea;
+
+    @NotEmpty(message = "Field required")
     private String number;
     private String complement;
     private String district;
+
+    @NotEmpty(message = "Field required")
     private String zipCode;
 
+    @NotEmpty(message = "Field required")
     private String phone1;
     private String phone2;
     private String phone3;
@@ -39,12 +59,12 @@ public class ClientNewDTO implements Serializable {
         this.email = email;
     }
 
-    public String getPersonId() {
-        return personId;
+    public String getCpfOrCnpj() {
+        return cpfOrCnpj;
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+    public void setCpfOrCnpj(String cpfOrCnpj) {
+        this.cpfOrCnpj = cpfOrCnpj;
     }
 
     public Integer getType() {
