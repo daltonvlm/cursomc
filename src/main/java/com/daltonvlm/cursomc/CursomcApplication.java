@@ -50,16 +50,38 @@ public class CursomcApplication implements CommandLineRunner {
         Product computer = new Product(null, "Computer", 2000.00);
         Product printer = new Product(null, "Printer", 800.00);
         Product mouse = new Product(null, "Mouse", 80.00);
+        Product officeTable = new Product(null, "Office table", 300.00);
+        Product towel = new Product(null, "Towel", 50.00);
+        Product bedspread = new Product(null, "Bedspread", 200.00);
+        Product trueColorTv = new Product(null, "True color TV", 1200.00);
+        Product brushcutter = new Product(null, "Brushcutter", 800.00);
+        Product abajour = new Product(null, "Abajour", 100.00);
+        Product pendant = new Product(null, "Pendant", 180.00);
+        Product shampoo = new Product(null, "Shampoo", 90.00);
+
 
         informatics.getProducts().addAll(Arrays.asList(computer, printer, mouse));
-        office.getProducts().addAll(Arrays.asList(printer));
+        office.getProducts().addAll(Arrays.asList(printer, officeTable));
+        householdLinen.getProducts().addAll(Arrays.asList(towel, bedspread));
+        electronics.getProducts().addAll(Arrays.asList(computer, printer, mouse, trueColorTv));
+        gardening.getProducts().addAll(Arrays.asList(brushcutter));
+        decoration.getProducts().addAll(Arrays.asList(abajour, pendant));
+        perfumery.getProducts().addAll(Arrays.asList(shampoo));
 
-        computer.getCategories().addAll(Arrays.asList(informatics));
-        printer.getCategories().addAll(Arrays.asList(informatics, office));
-        mouse.getCategories().addAll(Arrays.asList(informatics));
+        computer.getCategories().addAll(Arrays.asList(informatics, electronics));
+        printer.getCategories().addAll(Arrays.asList(informatics, office, electronics));
+        mouse.getCategories().addAll(Arrays.asList(informatics, electronics));
+        officeTable.getCategories().addAll(Arrays.asList(office));
+        towel.getCategories().addAll(Arrays.asList(householdLinen));
+        bedspread.getCategories().addAll(Arrays.asList(householdLinen));
+        trueColorTv.getCategories().addAll(Arrays.asList(electronics));
+        brushcutter.getCategories().addAll(Arrays.asList(gardening));
+        abajour.getCategories().addAll(Arrays.asList(decoration));
+        pendant.getCategories().addAll(Arrays.asList(decoration));
+        shampoo.getCategories().addAll(Arrays.asList(perfumery));
 
         categoryRepository.saveAll(Arrays.asList(informatics, office, householdLinen, electronics, gardening, decoration, perfumery));
-        productRepository.saveAll(Arrays.asList(computer, printer, mouse));
+        productRepository.saveAll(Arrays.asList(computer, printer, mouse, officeTable, towel, bedspread, trueColorTv, brushcutter, abajour, pendant, shampoo));
 
         State minasGerais = new State(null, "Minas Gerais");
         State saoPaulo = new State(null, "São Paulo");
