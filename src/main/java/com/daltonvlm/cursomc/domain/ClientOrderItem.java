@@ -29,7 +29,7 @@ public class ClientOrderItem implements Serializable {
 
     @JsonIgnore
     public ClientOrder getOrders() {
-        return id.getOrders();
+        return id.getOrder();
     }
 
     public Product getProduct() {
