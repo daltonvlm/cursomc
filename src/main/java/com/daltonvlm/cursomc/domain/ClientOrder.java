@@ -42,6 +42,16 @@ public class ClientOrder implements Serializable {
         this.address = address;
     }
 
+    public double getTotalValue() {
+        double total = 0;
+
+        for (ClientOrderItem coi : orderItems) {
+            total += coi.getSubTotal();
+        }
+
+        return total;
+    }
+
     public Integer getId() {
         return id;
     }
