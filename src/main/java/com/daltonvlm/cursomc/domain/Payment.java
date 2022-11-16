@@ -37,11 +37,11 @@ public abstract class Payment implements Serializable {
         this.id = id;
     }
 
-    public PaymentState getState() {
+    public PaymentState getPaymentState() {
         return PaymentState.toEnum(state);
     }
 
-    public void setState(PaymentState state) {
+    public void setPaymentState(PaymentState state) {
         this.state = state.getCode();
     }
 

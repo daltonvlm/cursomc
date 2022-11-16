@@ -73,11 +73,11 @@ public class Client implements Serializable {
         this.cpfOrCnpj = cpfOrCnpj;
     }
 
-    public ClientType getType() {
+    public ClientType getClientType() {
         return ClientType.toEnum(type);
     }
 
-    public void setType(ClientType type) {
+    public void setClientType(ClientType type) {
         this.type = type.getCode();
     }
 
