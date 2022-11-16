@@ -37,7 +37,7 @@ public class CategoryService {
     public Category update(Category obj) {
         Category newObj = find(obj.getId());
         updateData(newObj, obj);
-        return repository.save(obj);
+        return repository.save(newObj);
     }
 
     public void delete(Integer id) {
