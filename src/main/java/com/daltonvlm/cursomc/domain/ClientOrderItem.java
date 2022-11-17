@@ -32,12 +32,20 @@ public class ClientOrderItem implements Serializable {
     }
 
     @JsonIgnore
-    public ClientOrder getOrders() {
+    public ClientOrder getOrder() {
         return id.getOrder();
+    }
+
+    public void setOrder(ClientOrder order) {
+        id.setOrder(order);
     }
 
     public Product getProduct() {
         return id.getProduct();
+    }
+
+    public void setProduct(Product product) {
+        id.setProduct(product);
     }
 
     public ClientOrderItemPK getId() {

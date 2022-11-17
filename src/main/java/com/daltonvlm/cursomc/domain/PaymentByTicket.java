@@ -2,11 +2,13 @@ package com.daltonvlm.cursomc.domain;
 
 import com.daltonvlm.cursomc.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
+@JsonTypeName("PaymentByTicket")
 public class PaymentByTicket extends Payment {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date expirationDate;

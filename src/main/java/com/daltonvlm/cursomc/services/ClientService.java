@@ -34,17 +34,17 @@ public class ClientService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Client.class.getName()));
     }
 
-    private void updateData(Client newObj, Client obj) {
-        newObj.setName(obj.getName());
-        newObj.setEmail(obj.getEmail());
-    }
-
     @Transactional
     public Client insert(Client obj) {
         obj.setId(null);
         obj = repository.save(obj);
         addressRepository.saveAll(obj.getAddresses());
         return obj;
+    }
+
+    private void updateData(Client newObj, Client obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
     }
 
     public Client update(Client obj) {

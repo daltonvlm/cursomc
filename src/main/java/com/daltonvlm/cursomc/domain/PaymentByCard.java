@@ -1,10 +1,12 @@
 package com.daltonvlm.cursomc.domain;
 
 import com.daltonvlm.cursomc.domain.enums.PaymentState;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.persistence.Entity;
 
 @Entity
+@JsonTypeName("paymentByCard")
 public class PaymentByCard extends Payment {
     private Integer installments;
 

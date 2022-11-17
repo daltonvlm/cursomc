@@ -76,7 +76,7 @@ public class Product implements Serializable {
     public List<ClientOrder> getOrders() {
         List<ClientOrder> orders = new ArrayList<>();
         for (ClientOrderItem item : orderItems) {
-            orders.add(item.getOrders());
+            orders.add(item.getOrder());
         }
         return orders;
     }
