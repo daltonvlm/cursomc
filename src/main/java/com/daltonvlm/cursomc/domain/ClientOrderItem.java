@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -91,5 +93,20 @@ public class ClientOrderItem implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+        final StringBuilder sb = new StringBuilder();
+        sb
+                .append(getProduct().getName())
+                .append(", Quantity: ").append(quantity)
+                .append(", Unit price: ").append(nf.format(price))
+                .append(", Subtotal: ").append(nf.format(getSubTotal()))
+                .append("\n");
+
+        return sb.toString();
     }
 }
