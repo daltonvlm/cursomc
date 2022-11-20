@@ -4,7 +4,7 @@ Spring Boot REST API for a case study of an online order management system
 
 ![Badge](https://img.shields.io/badge/status-in_progress-yellow)
 
-## Endpoints
+## Endpoints example
 
 | Endpoint | Description |
 | --- | --- |
@@ -12,11 +12,12 @@ Spring Boot REST API for a case study of an online order management system
 | /clients/{id} | A client, its phone nubmers, and addresses
 | /orders/{id} | An order, its client, payment, order items, and delivery address
 
-## Tools covered
+## Concepts and tools covered
 
 * Spring Boot REST API
 * JPA / Hibernate
-* MySql
+* Postgresql
+* Heroku deployment
 * Spring Security / JWT
 * Gmail
 * Amazon S3
