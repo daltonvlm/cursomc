@@ -65,7 +65,7 @@ public class ClientOrderService {
         }
         clientOrderItemRepository.saveAll(obj.getOrderItems());
 
-        emailService.sendOrderConfirmationEmail(obj);
+        emailService.sendOrderConfirmationHtmlEmail(obj);
 
         return obj;
     }
