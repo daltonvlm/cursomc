@@ -3,6 +3,7 @@ package com.daltonvlm.cursomc.services;
 import com.daltonvlm.cursomc.domain.*;
 import com.daltonvlm.cursomc.domain.enums.ClientType;
 import com.daltonvlm.cursomc.domain.enums.PaymentState;
+import com.daltonvlm.cursomc.domain.enums.Profile;
 import com.daltonvlm.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -93,19 +94,25 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(minasGerais, saoPaulo));
         cityRepository.saveAll(Arrays.asList(uberlandia, saoPauloCity, campinas));
 
-        Client mariaSilva = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURAL_PERSON,
-                bCryptPasswordEncoder.encode("123"));
+        Client mariaSilva = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURAL_PERSON, bCryptPasswordEncoder.encode("123"));
         mariaSilva.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+
+        Client anaCosta = new Client(null, "Ana Costa", "ana@gmail.com", "31628382740", ClientType.NATURAL_PERSON, bCryptPasswordEncoder.encode("123"));
+        anaCosta.addProfile(Profile.ADMIN);
+        anaCosta.getPhones().addAll(Arrays.asList("93883321", "34252625"));
 
         Address address1 = new Address(
                 null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", mariaSilva, uberlandia);
         Address address2 = new Address(
                 null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", mariaSilva, saoPauloCity);
+        Address address3 = new Address(
+                null, "Avenida Floriano", "2106", null, "Centro", "281777012", anaCosta, saoPauloCity);
 
         mariaSilva.getAddresses().addAll(Arrays.asList(address1, address2));
+        anaCosta.getAddresses().addAll(Arrays.asList(address3));
 
-        clientRepository.saveAll(Arrays.asList(mariaSilva));
-        addressRepository.saveAll(Arrays.asList(address1, address2));
+        clientRepository.saveAll(Arrays.asList(mariaSilva, anaCosta));
+        addressRepository.saveAll(Arrays.asList(address1, address2, address3));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
