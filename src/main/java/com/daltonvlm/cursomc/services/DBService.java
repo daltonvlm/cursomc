@@ -5,6 +5,7 @@ import com.daltonvlm.cursomc.domain.enums.ClientType;
 import com.daltonvlm.cursomc.domain.enums.PaymentState;
 import com.daltonvlm.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -31,6 +32,8 @@ public class DBService {
     private PaymentRepository paymentRepository;
     @Autowired
     private ClientOrderItemRepository orderItemRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void instantiateTestDatabase() throws ParseException {
         Category informatics = new Category(null, "Informatics");
@@ -90,7 +93,8 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(minasGerais, saoPaulo));
         cityRepository.saveAll(Arrays.asList(uberlandia, saoPauloCity, campinas));
 
-        Client mariaSilva = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURAL_PERSON);
+        Client mariaSilva = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURAL_PERSON,
+                bCryptPasswordEncoder.encode("123"));
         mariaSilva.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 
         Address address1 = new Address(
