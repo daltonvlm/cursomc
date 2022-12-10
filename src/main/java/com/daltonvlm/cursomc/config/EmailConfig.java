@@ -12,20 +12,10 @@ import org.springframework.context.annotation.Profile;
 import java.text.ParseException;
 
 @Configuration
-@Profile("dev")
-public class DevConfig {
-    @Autowired
-    private DBService dbService;
-
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String strategy;
-
+public class EmailConfig {
+    @Profile({"dev", "prod"})
     @Bean
-    public boolean instantiateDatabase() throws ParseException {
-        if (!strategy.equals("create")) {
-            return false;
-        }
-        dbService.instantiateTestDatabase();
-        return true;
+    public EmailService emailService() {
+        return new SmtpEmailService();
     }
 }
