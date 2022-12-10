@@ -26,7 +26,7 @@ public class SmtpEmailService extends AbstractEmailService {
 
     @Override
     public void sendHtmlEmail(MimeMessage msg) {
-        LOG.info("Simulating html email sending...");
+        LOG.info("Sending email...");
         javaMailSender.send(msg);
         LOG.info("Email sent");
     }
