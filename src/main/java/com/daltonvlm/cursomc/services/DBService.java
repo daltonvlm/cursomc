@@ -36,7 +36,7 @@ public class DBService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void instantiateTestDatabase() throws ParseException {
+    public void instantiateMockDatabase() throws ParseException {
         Category informatics = new Category(null, "Informatics");
         Category office = new Category(null, "Office");
         Category householdLinen = new Category(null, "Household linen");
