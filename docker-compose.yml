@@ -1,10 +1,30 @@
 version: '3.8'
 
 services:
-  db:
+  cursomc:
+    build:
+      context: .
+      target: development
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://postgresserver/cursomc
+      - EMAIL_USER_NAME=${EMAIL_USER_NAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+    volumes:
+      - ./:/app
+
+  postgresserver:
     image: postgres
     ports:
       - "5432:5432"
     environment:
+      POSTGRES_USER: cursomc
       POSTGRES_PASSWORD: cursomc
       POSTGRES_DB: cursomc
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
