@@ -4,10 +4,13 @@ import com.daltonvlm.cursomc.domain.Address;
 import com.daltonvlm.cursomc.domain.City;
 import com.daltonvlm.cursomc.domain.Client;
 import com.daltonvlm.cursomc.domain.enums.ClientType;
+import com.daltonvlm.cursomc.domain.enums.Profile;
 import com.daltonvlm.cursomc.dto.ClientDTO;
 import com.daltonvlm.cursomc.dto.ClientNewDTO;
 import com.daltonvlm.cursomc.repositories.AddressRepository;
 import com.daltonvlm.cursomc.repositories.ClientRepository;
+import com.daltonvlm.cursomc.security.UserSS;
+import com.daltonvlm.cursomc.services.exceptions.AuthorizationException;
 import com.daltonvlm.cursomc.services.exceptions.DataIntegrityException;
 import com.daltonvlm.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,11 @@ public class ClientService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Client find(Integer id) {
+        UserSS user = UserService.authenticated();
+        if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Access denied");
+        }
+
         Optional<Client> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Client.class.getName()));
     }
