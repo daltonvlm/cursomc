@@ -1,5 +1,6 @@
 package com.daltonvlm.cursomc.services;
 
+import com.daltonvlm.cursomc.domain.Client;
 import com.daltonvlm.cursomc.domain.ClientOrder;
 import com.daltonvlm.cursomc.domain.ClientOrderItem;
 import com.daltonvlm.cursomc.domain.PaymentByTicket;
@@ -7,8 +8,13 @@ import com.daltonvlm.cursomc.domain.enums.PaymentState;
 import com.daltonvlm.cursomc.repositories.ClientOrderItemRepository;
 import com.daltonvlm.cursomc.repositories.ClientOrderRepository;
 import com.daltonvlm.cursomc.repositories.PaymentRepository;
+import com.daltonvlm.cursomc.security.UserSS;
+import com.daltonvlm.cursomc.services.exceptions.AuthorizationException;
 import com.daltonvlm.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,5 +74,15 @@ public class ClientOrderService {
         emailService.sendOrderConfirmationHtmlEmail(obj);
 
         return obj;
+    }
+
+    public Page<ClientOrder> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationException("Access denied");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Client client = clientService.find(user.getId());
+        return repository.findByClient(client, pageRequest);
     }
 }
