@@ -1,5 +1,6 @@
 package com.daltonvlm.cursomc.services;
 
+import com.daltonvlm.cursomc.domain.Client;
 import com.daltonvlm.cursomc.domain.ClientOrder;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -14,4 +15,6 @@ public interface EmailService {
     void sendOrderConfirmationHtmlEmail(ClientOrder order);
 
     void sendHtmlEmail(MimeMessage msg);
+
+    void sendNewPasswordEmail(Client client, String newPass);
 }

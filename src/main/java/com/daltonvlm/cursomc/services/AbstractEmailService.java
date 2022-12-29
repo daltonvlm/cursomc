@@ -1,5 +1,6 @@
 package com.daltonvlm.cursomc.services;
 
+import com.daltonvlm.cursomc.domain.Client;
 import com.daltonvlm.cursomc.domain.ClientOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,16 +31,6 @@ public abstract class AbstractEmailService implements EmailService {
         sendEmail(smm);
     }
 
-    @Override
-    public void sendOrderConfirmationHtmlEmail(ClientOrder order) {
-        try {
-            MimeMessage mm = prepareMimeMessageFromOrder(order);
-            sendHtmlEmail(mm);
-        } catch (MessagingException e) {
-            sendOrderConfirmationEmail(order);
-        }
-    }
-
     protected SimpleMailMessage prepareSimpleMailMessageFromOrder(ClientOrder order) {
         SimpleMailMessage smm = new SimpleMailMessage();
         smm.setTo(order.getClient().getEmail());
@@ -48,6 +39,16 @@ public abstract class AbstractEmailService implements EmailService {
         smm.setSentDate(new Date(System.currentTimeMillis()));
         smm.setText(order.toString());
         return smm;
+    }
+
+    @Override
+    public void sendOrderConfirmationHtmlEmail(ClientOrder order) {
+        try {
+            MimeMessage mm = prepareMimeMessageFromOrder(order);
+            sendHtmlEmail(mm);
+        } catch (MessagingException e) {
+            sendOrderConfirmationEmail(order);
+        }
     }
 
     protected MimeMessage prepareMimeMessageFromOrder(ClientOrder order) throws MessagingException {
@@ -65,5 +66,21 @@ public abstract class AbstractEmailService implements EmailService {
         Context context = new Context();
         context.setVariable("order", order);
         return templateEngine.process("email/orderConfirmation", context);
+    }
+
+    @Override
+    public void sendNewPasswordEmail(Client client, String newPass) {
+        SimpleMailMessage smm = prepareNewPasswordEmail(client, newPass);
+        sendEmail(smm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Client client, String newPass) {
+        SimpleMailMessage smm = new SimpleMailMessage();
+        smm.setTo(client.getEmail());
+        smm.setFrom(sender);
+        smm.setSubject("New Password Request");
+        smm.setSentDate(new Date(System.currentTimeMillis()));
+        smm.setText("New Password: " + newPass);
+        return smm;
     }
 }
