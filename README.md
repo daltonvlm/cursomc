@@ -20,6 +20,7 @@ Diagram's author: [Nelio Alves](https://github.com/acenelio)
 * Spring Boot REST API
 * JPA / Hibernate
 * Postgresql
+* Docker (docker compose)
 * Heroku deployment
 * Spring Security / JWT
 * Gmail
