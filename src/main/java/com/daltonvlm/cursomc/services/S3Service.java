@@ -2,6 +2,7 @@ package com.daltonvlm.cursomc.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.daltonvlm.cursomc.services.exceptions.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class S3Service {
             String contentType = multipartFile.getContentType();
             return uploadFile(is, fileName, contentType);
         } catch (IOException e) {
-            throw new RuntimeException("IO error: " + e.getMessage());
+            throw new FileException("IO error: " + e.getMessage());
         }
     }
 
@@ -44,7 +45,7 @@ public class S3Service {
             LOG.info("Upload done");
             return s3client.getUrl(bucketName, fileName).toURI();
         } catch (URISyntaxException e) {
-            throw new RuntimeException("Error trying to convert URL to URI");
+            throw new FileException("Error trying to convert URL to URI");
         }
     }
 }
