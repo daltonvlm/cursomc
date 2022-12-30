@@ -93,11 +93,9 @@ public class ClientService {
     }
 
     public Client fromDTO(ClientNewDTO objDto) {
-        Client client = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), ClientType.toEnum(objDto.getType()),
-                bCryptPasswordEncoder.encode(objDto.getPassword()));
+        Client client = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), ClientType.toEnum(objDto.getType()), bCryptPasswordEncoder.encode(objDto.getPassword()));
         City city = new City(objDto.getCityId(), null, null);
-        Address address = new Address(
-                null, objDto.getPublicArea(), objDto.getNumber(), objDto.getComplement(), objDto.getDistrict(), objDto.getZipCode(), client, city);
+        Address address = new Address(null, objDto.getPublicArea(), objDto.getNumber(), objDto.getComplement(), objDto.getDistrict(), objDto.getZipCode(), client, city);
 
         client.getAddresses().add(address);
         client.getPhones().add(objDto.getPhone1());
@@ -111,6 +109,15 @@ public class ClientService {
     }
 
     public URI uploadProfilePicture(MultipartFile multipartFile) {
-        return s3Service.uploadFile(multipartFile);
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationException("Access denied");
+        }
+
+        URI uri = s3Service.uploadFile(multipartFile);
+        Client client = find(user.getId());
+        client.setImageUrl(uri.toString());
+        repository.save(client);
+        return uri;
     }
 }
