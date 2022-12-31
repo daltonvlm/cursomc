@@ -2,7 +2,7 @@
 
 Spring Boot REST API for a case study of an online order management system
 
-![Badge](https://img.shields.io/badge/status-in_progress-yellow)
+![Badge](https://img.shields.io/badge/status-concluded-green)
 
 ![Diagrama de classes](diagrama-de-classes.png)
 Diagram's author: [Nelio Alves](https://github.com/acenelio)
